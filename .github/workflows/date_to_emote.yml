@@ -1,0 +1,81 @@
+name: Daily Emoji & Security Scan
+
+on:
+  schedule:
+    - cron: "0 17 * * *" # Midnight Bangkok (17:00 UTC)
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/**"
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Prevents multiple runs from clashing during a push
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --- STAGE 1: SECURITY CHECKS ---
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret Scanning (TruffleHog)
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+      - name: Python SAST (Bandit)
+        run: |
+          pip install bandit
+          bandit -r scripts/ -ll # -ll focuses on Medium/High severity only
+
+  # --- STAGE 2: EMOJI UPDATE ---
+  update-clock:
+    needs: security-audit
+    # Only update the README on schedule or manual trigger
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip" # Automatically caches your requirements.txt
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Update Script
+        # Use 'continue-on-error' so a network glitch doesn't mark the whole run as "failed"
+        continue-on-error: true
+        run: python scripts/update_emoji.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Only commit if README.md actually changed
+          if git diff --quiet README.md; then
+            echo "No changes to README.md"
+          else
+            git add README.md
+            git commit -m "chore: daily emoji update [skip ci]"
+            git push
+          fi
