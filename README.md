@@ -50,7 +50,7 @@ This repository uses **GitHub Actions** and **Python** to dynamically update the
 
 The system is built with a modular structure to ensure clean code and easy maintenance:
 
-1.  **Trigger:** A GitHub Action defined in `.github/workflows/emoji-clock.yml` runs on a `cron` schedule (every day at midnight Bangkok time).
+1.  **Trigger:** A GitHub Action defined in `.github/workflows/date_to_emote.yml` runs on a `cron` schedule (every day at midnight Bangkok time).
 2.  **Environment:** GitHub spins up a virtual Ubuntu environment and installs dependencies from `requirements.txt`.
 3.  **Logic:** The script `scripts/update_emoji.py` calculates the **Day of the Year** (1-365) and uses it as an index to select a unique emoji from the `emoji` Python library.
 4.  **Injection:** The script uses Regex to find the `<!-- EMOJI_CLOCK_START -->` tags and replaces the content with fresh data.
@@ -60,7 +60,7 @@ The system is built with a modular structure to ensure clean code and easy maint
 
 ```text
 ├── .github/workflows/
-│   └── time_to_emote.yml    # Workflow configuration
+│   └── date_to_emote.yml    # Workflow configuration
 ├── scripts/
 │   └── update_emoji.py    # Python logic for emoji selection
 ├── README.md              # The file you are reading now!
