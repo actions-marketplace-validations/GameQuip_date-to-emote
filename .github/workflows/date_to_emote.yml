@@ -62,7 +62,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Update Script
-        # Use 'continue-on-error' so a network glitch doesn't mark the whole run as "failed"
+        # Use 'continue-on-error' so a network glitch doesn't mark the whole run as "failed".
         continue-on-error: true
         run: python scripts/update_emoji.py
 
