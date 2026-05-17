@@ -1,9 +1,9 @@
 ---
 <!-- EMOJI_CLOCK_START -->
-### 🗓️ Today is 17 May 2026
-# 🌷
-**Daily Emoji:** Tulip  
-**Day of the Year:** 137 / 365  
+### 🗓️ Today is 18 May 2026
+# 🪻
+**Daily Emoji:** Hyacinth  
+**Day of the Year:** 138 / 365  
 <!-- EMOJI_CLOCK_END -->
 ---
 
@@ -26,10 +26,10 @@ If you want to fork this and use it yourself, follow these steps:
 
     ```markdown
     <!-- EMOJI_CLOCK_START -->
-### 🗓️ Today is 17 May 2026
-# 🌷
-**Daily Emoji:** Tulip  
-**Day of the Year:** 137 / 365  
+### 🗓️ Today is 18 May 2026
+# 🪻
+**Daily Emoji:** Hyacinth  
+**Day of the Year:** 138 / 365  
 <!-- EMOJI_CLOCK_END -->
 
     ```
