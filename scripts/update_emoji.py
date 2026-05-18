@@ -32,6 +32,7 @@ def get_emoji_data(day_index):
 def update_readme():
     now = datetime.datetime.now(zoneinfo.ZoneInfo("Asia/Bangkok"))
     day_of_year = int(now.strftime("%j"))
+    total_days_this_year = int(datetime.date(now.year, 12, 31).strftime("%j"))
     date_str = now.strftime("%d %B %Y")
 
     char, name = get_emoji_data(day_of_year)
@@ -41,7 +42,7 @@ def update_readme():
         f"### 🗓️ Today is {date_str}\n"
         f"# {char}\n"
         f"**Daily Emoji:** {name}  \n"
-        f"**Day of the Year:** {day_of_year} / 365  \n"
+        f"**Day:** {day_of_year} / {total_days_this_year}  \n"
         f"<!-- EMOJI_CLOCK_END -->"
     )
 
@@ -53,7 +54,7 @@ def update_readme():
         content = f.read()
 
     new_content = re.sub(r"<!-- EMOJI_CLOCK_START -->.*?<!-- EMOJI_CLOCK_END -->", 
-                         display_text, content, flags=re.DOTALL)
+                         display_text, content, count=1, flags=re.DOTALL)
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(new_content)
