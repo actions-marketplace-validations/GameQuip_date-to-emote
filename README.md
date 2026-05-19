@@ -1,11 +1,13 @@
----
 <!-- EMOJI_CLOCK_START -->
+
 ### 🗓️ Today is 16 May 2026
+
 # 🌼
+
 **Daily Emoji:** Blossom  
-**Day of the Year:** 136 / 365  
+**Day of the Year:** 136 / 365
+
 <!-- EMOJI_CLOCK_END -->
----
 
 ---
 
@@ -26,16 +28,21 @@ If you want to fork this and use it yourself, follow these steps:
 
     ```markdown
     <!-- EMOJI_CLOCK_START -->
-### 🗓️ Today is 16 May 2026
-# 🌼
-**Daily Emoji:** Blossom  
-**Day of the Year:** 136 / 365  
-<!-- EMOJI_CLOCK_END -->
 
+    <!-- EMOJI_CLOCK_END -->
     ```
 
 4.  **Push to GitHub:**
     Once pushed, navigate to the **Actions** tab in your GitHub repository and manually trigger the "Emoji Clock Workflow" to see it work for the first time!
+
+```
+
+- name: Run Emoji Update
+  uses: YourGitHubUsername/daily-emoji-readme-action@v1.0.0
+  with:
+    start_offset: '120' # They can change this to any number they want!
+
+```
 
 ---
 
