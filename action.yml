@@ -1,0 +1,31 @@
+name: "Daily Emoji README Updater"
+description: "Automatically updates your README with a daily emoji based on a customizable starting index."
+author: "YourGitHubUsername"
+branding:
+  icon: "calendar"
+  color: "orange"
+
+inputs:
+  start_offset:
+    description: "The starting emoji index/offset for Day 1 (e.g., 564)"
+    required: false
+    default: "564" # Keeps your current default
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Install Dependencies
+      shell: bash
+      run: pip install -r ${{ github.action_path }}/requirements.txt
+
+    - name: Run Emoji Update Script
+      shell: bash
+      env:
+        # Pass the custom offset to Python as an environment variable
+        START_OFFSET: ${{ inputs.start_offset }}
+      run: python ${{ github.action_path }}/entrypoint.py
